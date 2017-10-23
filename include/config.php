@@ -3,8 +3,8 @@
 /**
  * Database config variables
  */
-define("DB_HOST", "34.209.238.147");
-define("DB_USER", "Oep#lbd@");
-define("DB_PASSWORD", "eprp2");
+define("DB_HOST", "localhost:3306");
+define("DB_USER", "root");
+define("DB_PASSWORD", "ace6d52f");
 define("DB_DATABASE", "eachosproblemas_db");
 ?>
