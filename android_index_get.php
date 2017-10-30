@@ -39,7 +39,7 @@ if (isset($_GET['tag']) && $_GET['tag'] != '') {
 		$response["error"] = 0;
 		echo json_encode($response);
     }
-	
+
 	if ($tag == 'login') {
         // Request type is check Login
         $nusp = $_GET['nusp'];
@@ -53,7 +53,7 @@ if (isset($_GET['tag']) && $_GET['tag'] != '') {
             $response["success"] = 1;
 			$response["usuario"]["nusp"] = $user["nusp"];
             $response["usuario"]["nome"] = $user["nome"];
-            
+
             echo json_encode($response);
         } else {
             // user not found
@@ -62,22 +62,22 @@ if (isset($_GET['tag']) && $_GET['tag'] != '') {
             $response["error_msg"] = "Incorrect info";
             echo json_encode($response);
         }
-    } 
-	
+    }
+
 	if ($tag == 'selecionar_problemas') {
 
         // check for user
         $problemas = $db->getProblemas();
         echo json_encode($problemas);
     }
-	
+
 	if ($tag == 'selecionar_problema') {
 		$idProblema = $_GET['id_problema'];
         // check for user
         $problema = $db->getProblema($idProblema);
         echo json_encode($problema);
     }
-	
+
 	if ($tag == 'selecionar_feedbacks') {
 		$idProblema = $_GET['id_problema'];
         // check for user
@@ -95,5 +95,5 @@ if (isset($_GET['tag']) && $_GET['tag'] != '') {
 /*$response["success"] = 1;
 $response=json_encode($response);
 echo $response;*/
-  
+
 ?>

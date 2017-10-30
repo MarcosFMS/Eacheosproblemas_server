@@ -32,17 +32,8 @@ class DB_Functions {
     return $result;
   }
 
-  public function storeProblem($nusp, $tipo, $status, $local, $descricao, $data_inicio, $data_reporte) {
-    $result = mysqli_query(getConnection(),"INSERT INTO problema(usuario, tipo, status, local,descricao,data_inicio,data_reporte)
-    VALUES('$nusp','$tipo', '$status', '$local','$descricao','$data_inicio','$data_reporte'");
-  }
-
   public function getUserByNuspAndPassword($nusp, $password) {
-    $result = mysqli_query(getConnection(),"SELECT * FROM user WHERE nusp = '$nusp'") or die(mysqli_error());
-    mysqli_query("SET NAMES 'utf8'");
-    mysqli_query('SET character_set_connection=utf8');
-    mysqli_query('SET character_set_client=utf8');
-    mysqli_query('SET character_set_results=utf8');
+    $result = mysqli_query($this->getConnection(),"SELECT * FROM user WHERE nusp = '$nusp'") or die(mysqli_error());
     // check for result
     $no_of_rows = mysqli_num_rows($result);
     if ($no_of_rows > 0) {
@@ -55,6 +46,19 @@ class DB_Functions {
       }
     } else {
       // user not found
+      return false;
+    }
+  }
+
+  public function storeProblem($description, $place, $status, $user, $imageData,$imageName){
+    $imagePath = "images/".$imageName.".png";
+    $startDate = date("Y-m-d H:i:s");
+    $InsertSQL = "insert into problem (description, type, place, status, user, start_date, img_link) values ('$description',1,'$place',$status,$user,'$startDate','$imageName')";
+    $conn = $this->getConnection();
+    if(mysqli_query($conn, $InsertSQL)){
+        file_put_contents($imagePath,base64_decode($imageData));
+        return true;
+    }else{
       return false;
     }
   }

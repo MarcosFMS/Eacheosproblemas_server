@@ -31,27 +31,13 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
 		echo json_encode($response);
   }
 
-	if ($tag == 'cadastrar_problema') {
-    // Request type is cadastrar usuario
-    $nusp = $_POST['nusp'];
-    $tipo = $_POST['tipo'];
-		$local = $_POST['local'];
-		$descricao = $_POST['descricao'];
-		$data_inicio = $_POST['data_inicio'];
-		$data_reporte = $_POST['data_reporte'];
-    $db->storeProblem($nusp, $tipo, 1, $local, $descricao, $data_inicio, $data_reporte);
-		$response["success"] = 1;
-		$response["error"] = 0;
-		echo json_encode($response);
-  }
-
 	if ($tag == 'login') {
     // Request type is check Login
     $nusp = $_POST['nusp'];
     $password = $_POST['password'];
 
     // check for user
-    $user = $db->getUserByNuspAndSenha($nusp, $password);
+    $user = $db->getUserByNuspAndPassword($nusp, $password);
     if ($user != false) {
       $response["success"] = 1;
       $response["user"]["nusp"] = $user["nusp"];
@@ -64,6 +50,21 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
       $response["error_msg"] = "Incorrect info";
       echo json_encode($response);
     }
+  }
+
+	if ($tag == 'store_problem') {
+    // Request type is cadastrar usuario
+    $user = $_POST['nusp'];
+		$place = $_POST['place'];
+		$description = $_POST['description'];
+    $imageData = $_POST['image_data'];
+    $imageName = $_POST['image_name'];
+    if($db->storeProblem($description, $place, 1, $user, $imageData, $imageName)){
+  		$response["success"] = 1;
+    }else{
+      $response["success"] = 0;
+    }
+		echo json_encode($response);
   }
 
 	if ($tag == 'selecionar_problemas') {
@@ -93,7 +94,7 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
 		echo $response;
 	}
 }else{
-  echo "teste";
+  echo "Opção inválida";
 }
 
 /*$response["success"] = 1;
